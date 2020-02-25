@@ -13,7 +13,12 @@ from scipy.spatial.distance import cosine
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.metrics import pairwise
 
+
+def find_centroids(cluster_matrix):
+    for x in cluster_matrix:
+        pass
 
 
 if __name__ == "__main__":
@@ -37,4 +42,28 @@ if __name__ == "__main__":
     print("\n5) random sample of titles in each cluster")
     assigned_cluster = kmeans.transform(X).argmin(axis=1)
 
-    
+    distances = pairwise.euclidean_distances(X, kmeans.cluster_centers_)
+    # print(distances.shape)
+    # a = np.argsort(distances[0])
+    # print(np.argsort(distances[0]))
+
+    for x in distances[0]:
+        closest_to_0_cluster = np.argsort(distances[:,x])
+        # print(closest_to_0_cluster)
+        print(df['speech'].to_numpy()[closest_to_0_cluster[0:10]], df['speaker'].iloc[closest_to_0_cluster[0:10]])
+
+    # # print(distances)
+    # # print(len(distances))
+    # return_list = []
+    #
+    # for x in distances:
+    #     return_list.append(np.average(x))
+    #
+    # print(return_list)
+    #
+    # sorted_index = np.argsort(return_list)[-11:-1]
+    # print(sorted_index)
+    # print(sorted_index[0])
+    #
+    # print(df['speech'][sorted_index[0]])
+    # print(assigned_cluster)

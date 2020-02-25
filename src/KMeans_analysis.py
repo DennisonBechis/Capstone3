@@ -22,11 +22,11 @@ df = get_candidates(df)
 vectorizer = TfidfVectorizer(stop_words='english')
 X = vectorizer.fit_transform(df['speech'])
 features = vectorizer.get_feature_names()
-kmeans = KMeans(n_clusters=10)
+kmeans = KMeans(n_clusters=7)
 kmeans.fit(X)
 
 top_centroids = kmeans.cluster_centers_.argsort()[:,-1:-11:-1]
-print(kmeans.cluster_centers_.shape)
+print(kmeans.cluster_centers_)
 print("\n3) top features (words) for each cluster:")
 for num, centroid in enumerate(top_centroids):
     print("%d: %s" % (num, ", ".join(features[i] for i in centroid)))

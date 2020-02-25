@@ -9,7 +9,7 @@ def get_candidates(df):
     candidates_list = ['Joe Biden', 'Bernie Sanders', 'Amy Klobuchar', 'Tom Steyer', 'Andrew Yang',
                         'Elizabeth Warren', 'Pete Buttigieg','Tulsi Gabbard', 'Kamala Harris', 'Cory Booker',
                         'Beto ORourke', 'Julian Castro', 'John Delaney', 'Kirsten Gillibrand', 'Bill de Blasio',
-                        'Tim Ryan', 'Michael Bennet']
+                        'Tim Ryan', 'Michael Bennet', "Beto O\x92Rourke"]
 
     return df[df['speaker'].isin(candidates_list)]
 
@@ -54,6 +54,8 @@ if __name__ == "__main__":
     term_freq_df = corpus.get_term_freq_df()
     term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('Elizabeth Warren')
     pprint(list(term_freq_df.sort_values(by='Democratic Score', ascending=False).index[:20]))
+
+    print(df.iloc[173])
 
     # html = st.produce_scattertext_explorer(corpus,
     #      category='running',
