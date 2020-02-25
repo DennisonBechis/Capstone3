@@ -46,19 +46,19 @@ if __name__ == "__main__":
 
     nlp = st.WhitespaceNLP.whitespace_nlp
     corpus = st.CorpusFromPandas(df,
-                         category_col='still_running',
+                         category_col='speaker',
                          text_col='speech',
                          nlp=nlp).build()
 
     # print(list(corpus.get_scaled_f_scores_vs_background().index[:20]))
-    # term_freq_df = corpus.get_term_freq_df()
-    # term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('Bernie Sanders')
-    # pprint(list(term_freq_df.sort_values(by='Democratic Score', ascending=False).index[:20]))
+    term_freq_df = corpus.get_term_freq_df()
+    term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('Elizabeth Warren')
+    pprint(list(term_freq_df.sort_values(by='Democratic Score', ascending=False).index[:20]))
 
-    html = st.produce_scattertext_explorer(corpus,
-         category='running',
-         category_name='running',
-         not_category_name='dropped',
-         width_in_pixels=1000,
-         metadata=df['speaker'])
-    open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+    # html = st.produce_scattertext_explorer(corpus,
+    #      category='running',
+    #      category_name='running',
+    #      not_category_name='dropped',
+    #      width_in_pixels=1000,
+    #      metadata=df['speaker'])
+    # open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
