@@ -9,7 +9,7 @@ def get_candidates(df):
     candidates_list = ['Joe Biden', 'Bernie Sanders', 'Amy Klobuchar', 'Tom Steyer', 'Andrew Yang',
                         'Elizabeth Warren', 'Pete Buttigieg','Tulsi Gabbard', 'Kamala Harris', 'Cory Booker',
                         'Beto ORourke', 'Julian Castro', 'John Delaney', 'Kirsten Gillibrand', 'Bill de Blasio',
-                        'Tim Ryan', 'Michael Bennet', "Beto O\x92Rourke"]
+                        'Tim Ryan', 'Michael Bennet', "Beto O\x92Rourke",'Michael Bloomberg']
 
     return df[df['speaker'].isin(candidates_list)]
 
@@ -33,7 +33,7 @@ def get_moderators(df):
 
 def unusable_rows(df):
 
-    return df[df['speaking_time_seconds'] > 4]
+    return df[df['speaking_time_seconds'] > 7]
 
 if __name__ == "__main__":
     df = pd.read_csv("/Users/bechis/dsi/repo/Capstone3/data/debate_transcripts.csv", encoding= 'unicode_escape')

@@ -23,6 +23,8 @@ def find_centroids(cluster_matrix):
 
 if __name__ == "__main__":
     df = pd.read_csv("/Users/bechis/dsi/repo/Capstone3/data/debate_transcripts.csv", encoding= 'unicode_escape')
+    df1 = pd.read_csv("/Users/bechis/DSI/repo/capstone3/data/debate_transcripts_nevada.csv", encoding= 'unicode_escape')
+    df = pd.concat([df, df1])
     df = unusable_rows(df)
     df = get_candidates(df)
 
@@ -34,7 +36,6 @@ if __name__ == "__main__":
     kmeans.fit(X)
 
     top_centroids = kmeans.cluster_centers_.argsort()[:,-1:-11:-1]
-    print(kmeans.cluster_centers_)
     print("\n3) top features (words) for each cluster:")
     for num, centroid in enumerate(top_centroids):
         print("%d: %s" % (num, ", ".join(features[i] for i in centroid)))
@@ -47,10 +48,10 @@ if __name__ == "__main__":
     # a = np.argsort(distances[0])
     # print(np.argsort(distances[0]))
 
-    for x in distances[0]:
+    for x in range(len(distances[0,:])):
         closest_to_0_cluster = np.argsort(distances[:,x])
         # print(closest_to_0_cluster)
-        print(df['speech'].to_numpy()[closest_to_0_cluster[0:10]], df['speaker'].iloc[closest_to_0_cluster[0:10]])
+        print(df['speech'].to_numpy()[closest_to_0_cluster[0:20]], df['speaker'].iloc[closest_to_0_cluster[0:20]])
 
     # # print(distances)
     # # print(len(distances))
