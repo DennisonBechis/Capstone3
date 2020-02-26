@@ -32,7 +32,7 @@ if __name__ == "__main__":
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(df['speech'])
     features = vectorizer.get_feature_names()
-    kmeans = KMeans(n_clusters=10)
+    kmeans = KMeans(n_clusters=13)
     kmeans.fit(X)
 
     top_centroids = kmeans.cluster_centers_.argsort()[:,-1:-11:-1]
@@ -51,7 +51,11 @@ if __name__ == "__main__":
     for x in range(len(distances[0,:])):
         closest_to_0_cluster = np.argsort(distances[:,x])
         # print(closest_to_0_cluster)
-        print(df['speech'].to_numpy()[closest_to_0_cluster[0:20]], df['speaker'].iloc[closest_to_0_cluster[0:20]])
+        print("topic {}".format(x))
+        print(df['speech'].to_numpy()[closest_to_0_cluster[0:10]])
+        print('\n')
+        print(df['speaker'].iloc[closest_to_0_cluster[0:10]])
+        print('\n')
 
     # # print(distances)
     # # print(len(distances))

@@ -270,7 +270,7 @@ def main():
 
     td_idf = TfidfVectorizer(stop_words = stop_words)
 
-    tm = TopicModeler(lda, tf_vectorizer)
+    tm = TopicModeler(lda, td_idf)
     tm.fit(df.speech, titles=df.speaker)
 
     print(tm.top_topic_features())
