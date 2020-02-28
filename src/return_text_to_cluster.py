@@ -14,11 +14,40 @@ from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import pairwise
-
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
 
 def find_centroids(cluster_matrix):
     for x in cluster_matrix:
         pass
+
+
+def build_text_vectorizer(contents, use_tfidf=True, use_stemmer=False, max_features=None):
+
+    Vectorizer = TfidfVectorizer if use_tfidf else CountVectorizer
+    tokenizer = RegexpTokenizer(r"[\w']+")
+    stem = PorterStemmer().stem if use_stemmer else (lambda x: x)
+    stop_set = set(stopwords.words('english'))
+    stop_set = stop_set.union({'go','way','say','back','sure','would','think','see','first','second','one','said','go','put',
+    'get','going','think','get','done','having','has','need','want','us','got','well','crosstalk','they', 'whatd','?','whatd they say?'})
+
+    # Closure over the tokenizer et al.
+    def tokenize(text):
+        tokens = tokenizer.tokenize(text)
+        stems = [stem(token) for token in tokens if token not in stop_set]
+        return stems
+
+    vectorizer_model = Vectorizer(tokenizer=tokenize, max_features=max_features)
+    vectorizer_model.fit_transform(contents)
+    return_model = vectorizer_model.fit_transform(contents)
+    vocabulary = np.array(vectorizer_model.get_feature_names())
+
+    # Closure over the vectorizer_model's transform method.
+    def vectorizer(X):
+        return vectorizer_model.transform(X).toarray()
+
+    return vectorizer, vocabulary, return_model
 
 
 if __name__ == "__main__":
@@ -28,6 +57,7 @@ if __name__ == "__main__":
     df = unusable_rows(df)
     df = get_candidates(df)
 
+    vectorizer, features, X = build_text_vectorizer(df['speech'], use_tfidf=True, use_stemmer=True, max_features=None)
 
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(df['speech'])
@@ -51,8 +81,11 @@ if __name__ == "__main__":
     for x in range(len(distances[0,:])):
         closest_to_0_cluster = np.argsort(distances[:,x])
         # print(closest_to_0_cluster)
-        print("topic {}".format(x))
-        print(df['speech'].to_numpy()[closest_to_0_cluster[0:10]])
+        print("topic {}:".format(x))
+        for speech in range(len(df['speech'].iloc[closest_to_0_cluster[0:10]])):
+            print(df['speaker'].iloc[closest_to_0_cluster[speech]])
+            print(df['speech'].iloc[closest_to_0_cluster[speech]])
+            print('\n')
         print('\n')
         print(df['speaker'].iloc[closest_to_0_cluster[0:10]])
         print('\n')

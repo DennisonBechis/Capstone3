@@ -15,7 +15,7 @@ def horizontal_bar(ax, labels, data, name='horizontal_bar_graph', x_label = Fals
     ax.set_yticklabels(labels)
     ax.set_title(title)
     plt.tight_layout()
-    plt.savefig('/Users/bechis/dsi/repo/Capstone3/images'+name+'.png')
+    plt.savefig('/Users/bechis/dsi/repo/Capstone3/images'+name+'.png', transparent = True)
     return ax
 
 def line_plot(ax, x, y, label):
@@ -33,7 +33,7 @@ def bar_plot(ax, X_labels, Y_axis, name= 'bar_plot', x_name = False, y_name = Fa
     ax.set_ylabel(y_name)
     ax.set_title(title)
     plt.tight_layout()
-    plt.savefig('../images/'+name+'.png')
+    plt.savefig('../images/'+name+'.png', transparent = True)
     return ax
 
 if __name__ == "__main__":
@@ -41,14 +41,15 @@ if __name__ == "__main__":
     df = unusable_rows(df)
     df = get_candidates(df)
 
-    grouped_candidates = df.groupby(['speaker', 'debate_name']).count().reset_index()
-    grouped_candidates = grouped_candidates.groupby('speaker').count().reset_index()
-    grouped_candidates = group.sort_values(by='debate_name', ascending=True)
+    grouped_candidates = df.groupby(['speaker']).count().reset_index()
+    print(grouped_candidates)
+    # grouped_candidates = grouped_candidates.groupby('speaker').count().reset_index()
+    grouped_candidates = grouped_candidates.sort_values(by='debate_name', ascending=True)
 
     fig = plt.figure(figsize=(7,7))
     ax = fig.add_subplot(1,1,1)
 
 
 
-    # horizontal_bar(ax, grouped_candidates['speaker'].to_numpy(), grouped_candidates['debate_name'],name = 'Debates_attended', x_label = 'Debate Count',
-    #                  y_label= 'Democratic Candidates', title = 'Debates Attended')
+    horizontal_bar(ax, grouped_candidates['speaker'].to_numpy(), grouped_candidates['debate_name'],name = 'Debates_attended2', x_label = 'Times Spoken',
+                     y_label= 'Democratic Candidates', title = 'Debates Attended')

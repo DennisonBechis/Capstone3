@@ -13,11 +13,11 @@ from scipy.spatial.distance import cosine
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
 
 df = pd.read_csv("/Users/bechis/dsi/repo/Capstone3/data/debate_transcripts.csv", encoding= 'unicode_escape')
 df = unusable_rows(df)
 df = get_candidates(df)
-
 
 vectorizer = TfidfVectorizer(stop_words='english')
 X = vectorizer.fit_transform(df['speech'])
@@ -26,15 +26,15 @@ kmeans = KMeans(n_clusters=7)
 kmeans.fit(X)
 
 top_centroids = kmeans.cluster_centers_.argsort()[:,-1:-11:-1]
-print(kmeans.cluster_centers_)
 print("\n3) top features (words) for each cluster:")
 for num, centroid in enumerate(top_centroids):
     print("%d: %s" % (num, ", ".join(features[i] for i in centroid)))
 
+
 print("\n5) random sample of titles in each cluster")
 assigned_cluster = kmeans.transform(X).argmin(axis=1)
 candidates_list = {}
-print(assigned_cluster)
+print(silhouette_score(X, assigned_cluster))
 
 for times_run in range(200):
     for i in range(kmeans.n_clusters):
@@ -56,15 +56,16 @@ for times_run in range(200):
             else:
                 candidates_list[i][df.iloc[article]['speaker']] += 1/2000
 
-for x in candidates_list.keys():
+# for x in candidates_list.keys():
+#     print('Cluster {}'.format(x))
+#     print('Bernie:' + ' ' + str(round(candidates_list[x]['Bernie Sanders'],2)*100) + '%')
+#     print('Elizabeth:' + ' ' + str(round(candidates_list[x]['Elizabeth Warren'],2)*100) + '%')
+#     print('Joe:' + ' ' + str(round(candidates_list[x]['Joe Biden'],2)*100) + '%')
+#     print('Pete:' + ' ' + str(round(candidates_list[x]['Pete Buttigieg'],2)*100) + '%')
+#     print('Amy Klobuchar:' + ' ' + str(round(candidates_list[x]['Amy Klobuchar'],2)*100) + '%')
+#     print('\n')
 
-    print('Cluster {}'.format(x))
-    print('Bernie:' + ' ' + str(round(candidates_list[x]['Bernie Sanders'],2)*100) + '%')
-    print('Elizabeth:' + ' ' + str(round(candidates_list[x]['Elizabeth Warren'],2)*100) + '%')
-    print('Joe:' + ' ' + str(round(candidates_list[x]['Joe Biden'],2)*100) + '%')
-    print('Pete:' + ' ' + str(round(candidates_list[x]['Pete Buttigieg'],2)*100) + '%')
-    print('Amy Klobuchar:' + ' ' + str(round(candidates_list[x]['Amy Klobuchar'],2)*100) + '%')
-    print('\n')
+
 
 # # reduce the features to 2D
 # pca = PCA(n_components=2, random_state=0)

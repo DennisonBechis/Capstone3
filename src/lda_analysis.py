@@ -14,7 +14,7 @@ pd.options.display.max_columns = 40
 stop_words = ENGLISH_STOP_WORDS.union({'film', 'directed', 'fictional', 'work', 'books', 'released', 'written', 'born', 'characters', 'television', 'episodes', 'director', 'novel', 'story', 'book', 'list',
                                        'element', 'redirect', 'starring', 'fiction', 'story', 'produced', 'novel', 'based', 'character', 'game', 'comic', 'television', 'animated', 'tv', 'series', 'redirects', 'mentions', 'locations'
                                        ,'ve','know','don','way','think','going','just','said','got','like','need','say','ll','america','want','sure','make','come','right','let','did','look', 'actually','lot','does',
-                                        'people','fact','time'})
+                                        'people','fact','time','president','country','united','states','american','trump'})
 
 class TopicModeler(object):
     """
@@ -263,8 +263,8 @@ def main():
     df['still_running'] = df.apply(lambda row: assign_dropped(row[2]), axis=1)
 
     # df = load_data() #add this make a sample .sample(100).reset_index(drop=True)
-    lda = LatentDirichletAllocation(n_components=30, learning_offset=50., verbose=1,
-                                    doc_topic_prior=0.9, topic_word_prior=0.9, n_jobs=-1, learning_method='online')
+    lda = LatentDirichletAllocation(n_components=10, learning_offset=50., verbose=1,
+                                    doc_topic_prior=0.7, topic_word_prior=0.7, n_jobs=-1, learning_method='online')
 
     tf_vectorizer = CountVectorizer(max_df=0.85, min_df=2, max_features=1000, stop_words=stop_words)
 
@@ -277,8 +277,6 @@ def main():
     print(tm.top_closest_articles(df.speaker.iloc[101]))
     print(df.speech.iloc[101])
 
-    # print(tm.top_closest_articles('Bernie Sanders'))
-    # print(df.speaker.iloc[10])
 
     # Commented out because this can take a really long time!
     # params = {"n_components": [2, 5, 10, 50, 75, 100, 200]}
