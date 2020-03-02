@@ -4,6 +4,8 @@ import re
 import pandas as pd
 import numpy as np
 
+#Used pieces of webscraping code from kaggle
+
 patterns = {'speaker': '^[^\(\):\[\]]+:',
             'time': '^\((\d{2}:)?\d{2}:\d{2}\)'}
 
