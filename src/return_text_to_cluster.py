@@ -74,13 +74,9 @@ if __name__ == "__main__":
     assigned_cluster = kmeans.transform(X).argmin(axis=1)
 
     distances = pairwise.euclidean_distances(X, kmeans.cluster_centers_)
-    # print(distances.shape)
-    # a = np.argsort(distances[0])
-    # print(np.argsort(distances[0]))
 
     for x in range(len(distances[0,:])):
         closest_to_0_cluster = np.argsort(distances[:,x])
-        # print(closest_to_0_cluster)
         print("topic {}:".format(x))
         for speech in range(len(df['speech'].iloc[closest_to_0_cluster[0:10]])):
             print(df['speaker'].iloc[closest_to_0_cluster[speech]])
@@ -89,19 +85,3 @@ if __name__ == "__main__":
         print('\n')
         print(df['speaker'].iloc[closest_to_0_cluster[0:10]])
         print('\n')
-
-    # # print(distances)
-    # # print(len(distances))
-    # return_list = []
-    #
-    # for x in distances:
-    #     return_list.append(np.average(x))
-    #
-    # print(return_list)
-    #
-    # sorted_index = np.argsort(return_list)[-11:-1]
-    # print(sorted_index)
-    # print(sorted_index[0])
-    #
-    # print(df['speech'][sorted_index[0]])
-    # print(assigned_cluster)

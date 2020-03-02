@@ -52,13 +52,11 @@ def parse_time_seconds(time_string):
         return n_seconds
     return None
 
-if __name__ == "__main__":
-    data = get_transcript("https://www.rev.com/blog/transcripts/democratic-debate-transcript-las-vegas-nevada-debate")
+def clean_dataset(data):
     df = pd.DataFrame(data)
     df['speaker'] = df.speaker.apply(lambda name: name.rstrip(':').strip() if not pd.isnull(name) else name)
     df.loc[pd.isnull(df.speaker)]
     df = df.loc[~pd.isnull(df.speaker)].reset_index(drop=True)
-    print(df.head())
 
     # We group by debate and section, because for each section, the time resets. Sometimes,
     # The sections aren't labeled, and the time just resets...we'll deal with this.
@@ -143,4 +141,11 @@ if __name__ == "__main__":
     df.columns = ['debate_name', 'debate_section', 'speaker', 'speech', 'speaking_time_seconds']
     df = df.loc[df.speech!='']
 
-    df.to_csv('data/debate_transcripts_nevada.csv', encoding='cp1252', index=False)
+    return df
+
+if __name__ == "__main__":
+    data = get_transcript("https://www.rev.com/blog/transcripts/south-carolina-democratic-debate-transcript-february-democratic-debate")
+    df = clean_dataset(data)
+
+    # If needed, save dataframe by below code:
+    # df.to_csv("/Users/bechis/dsi/repo/capstone3/data/South_Carolina_Debate.csv", encoding='cp1252', index=False)

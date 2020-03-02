@@ -73,8 +73,6 @@ def softmax(v, temperature=1.0):
 if __name__ == '__main__':
 
     df = pd.read_csv("/Users/bechis/dsi/repo/Capstone3/data/debate_transcripts.csv", encoding= 'unicode_escape')
-    # df1 = pd.read_csv("/Users/bechis/DSI/repo/capstone3/data/debate_transcripts_nevada.csv", encoding= 'unicode_escape')
-    # df = pd.concat([df, df1])
     df = unusable_rows(df)
     df = get_candidates(df)
 
@@ -86,7 +84,6 @@ if __name__ == '__main__':
                                 max_features=5000)
 
     X = vectorizer(contents)
-    # bernie_answers = df[df['speaker']=='Bernie Sanders']['speech']
 
     random_state=12345
     nmf = NMF(n_components=14, max_iter=100, alpha=0.0)

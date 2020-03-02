@@ -50,12 +50,9 @@ if __name__ == "__main__":
                          text_col='speech',
                          nlp=nlp).build()
 
-    # print(list(corpus.get_scaled_f_scores_vs_background().index[:20]))
     term_freq_df = corpus.get_term_freq_df()
     term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('Elizabeth Warren')
     pprint(list(term_freq_df.sort_values(by='Democratic Score', ascending=False).index[:20]))
-
-    print(df.iloc[173])
 
     # html = st.produce_scattertext_explorer(corpus,
     #      category='running',

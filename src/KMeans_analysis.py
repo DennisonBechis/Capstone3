@@ -46,32 +46,9 @@ for times_run in range(200):
         cluster = np.arange(0, X.shape[0])[assigned_cluster==i]
         sample_articles = np.random.choice(cluster, 10, replace=False)
 
-        # print("cluster %d:" % i)
         for article in sample_articles:
-
-            # print("    %s" % df.iloc[article]['speaker'])
 
             if df.iloc[article]['speaker'] not in candidates_list[i].keys():
                 candidates_list[i][df.iloc[article]['speaker']] = 1/2000
             else:
                 candidates_list[i][df.iloc[article]['speaker']] += 1/2000
-
-# for x in candidates_list.keys():
-#     print('Cluster {}'.format(x))
-#     print('Bernie:' + ' ' + str(round(candidates_list[x]['Bernie Sanders'],2)*100) + '%')
-#     print('Elizabeth:' + ' ' + str(round(candidates_list[x]['Elizabeth Warren'],2)*100) + '%')
-#     print('Joe:' + ' ' + str(round(candidates_list[x]['Joe Biden'],2)*100) + '%')
-#     print('Pete:' + ' ' + str(round(candidates_list[x]['Pete Buttigieg'],2)*100) + '%')
-#     print('Amy Klobuchar:' + ' ' + str(round(candidates_list[x]['Amy Klobuchar'],2)*100) + '%')
-#     print('\n')
-
-
-
-# # reduce the features to 2D
-# pca = PCA(n_components=2, random_state=0)
-# reduced_features = pca.fit_transform(X.toarray())
-# # reduce the cluster centers to 2D
-# reduced_cluster_centers = pca.transform(kmeans.cluster_centers_)
-# plt.scatter(reduced_features[:,0], reduced_features[:,1], c=kmeans.predict(X), s=4)
-# plt.scatter(reduced_cluster_centers[:, 0], reduced_cluster_centers[:,1], marker='x', s=150, c='b')
-# plt.show()
